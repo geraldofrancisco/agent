@@ -16,4 +16,5 @@ public class QuestConstants {
   public static final String QUEST_CREATION_REQUEST_QUESTION_NOT_BLANK_ERROR = "QUEST_CREATION_REQUEST_QUESTION_NOT_BLANK_ERROR";
 
   public static final String QUEST_CREATION_RESPONSE_DATA_DESCRIPTION = "LLM response generated from the prompt";
+  public static final String QUEST_CREATION_NOT_RESPONSE_EXCEPTION = "QUEST_CREATION_NOT_RESPONSE_EXCEPTION";
 }

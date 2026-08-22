@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
 
 @Data
 @Builder
@@ -12,11 +13,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LLMDTO {
 
-  private String id;
-  private LocalDateTime timestampCreatedDate;
+  @Builder.Default
+  private ObjectId id = new ObjectId();
+  @Builder.Default
+  private LocalDateTime timestampCreatedDate = LocalDateTime.now();
   private String request;
   private String response;
-  private Long requestTokens;
-  private Long totalTokens;
+  private Integer requestTokens;
+  private Integer responseTokens;
+  private Integer totalTokens;
 
 }

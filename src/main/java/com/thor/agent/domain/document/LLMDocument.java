@@ -39,11 +39,11 @@ public class LLMDocument {
   private String response;
 
   @Field(name = LLM_FIELD_REQUEST_TOKENS)
-  private Long requestTokens;
+  private Integer requestTokens;
 
   @Field(name = LLM_FIELD_RESPONSE_TOKENS)
-  private Long responseTokens;
+  private Integer responseTokens;
 
   @Field(name = LLM_FIELD_TOTAL_TOKENS)
-  private Long totalTokens;
+  private Integer totalTokens;
 }
