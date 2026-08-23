@@ -17,6 +17,11 @@ public class ExceptionMapper {
   }
 
   public static ResponseEntity<ExceptionResponse> toResponse(final HttpStatus status,
+      final List<ExceptionFieldResponse> fields) {
+    return toResponse(status, null, fields);
+  }
+
+  public static ResponseEntity<ExceptionResponse> toResponse(final HttpStatus status,
       final String message, final List<ExceptionFieldResponse> fieldMessages) {
 
     var response = ExceptionResponse.builder()
@@ -26,4 +31,6 @@ public class ExceptionMapper {
         .build();
     return ResponseEntity.status(status).body(response);
   }
+
+
 }

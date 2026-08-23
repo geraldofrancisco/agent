@@ -3,6 +3,7 @@ package com.thor.agent.domain.exception;
 import static com.thor.agent.domain.constants.ProjectConstants.PROJECT_GENERIC_EXCEPTION;
 
 import com.thor.agent.domain.mapper.ExceptionMapper;
+import com.thor.agent.domain.response.exception.ExceptionFieldResponse;
 import com.thor.agent.domain.response.exception.ExceptionResponse;
 import io.swagger.v3.oas.annotations.Hidden;
 import java.util.Locale;
@@ -12,6 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -35,6 +40,23 @@ public class ProjectExceptionHandler {
     var message = getMessage(ex.getMessage());
     log.info(message, Objects.requireNonNullElse(ex.getE(), ex));
     return ExceptionMapper.toResponse(ex.getStatus(), message);
+  }
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<ExceptionResponse> handlerMethodArgumentNotValidException(
+      MethodArgumentNotValidException ex) {
+    var list = ex.getBindingResult().getFieldErrors().parallelStream()
+        .map(this::getError)
+        .toList();
+    return ExceptionMapper.toResponse(HttpStatus.BAD_REQUEST, list);
+  }
+
+  private ExceptionFieldResponse getError(FieldError error) {
+
+    return ExceptionFieldResponse.builder()
+        .message(getMessage(error.getDefaultMessage()))
+        .name(error.getField())
+        .build();
   }
 
   private String getMessage(String error) {
